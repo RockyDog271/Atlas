@@ -16,7 +16,6 @@ intents = discord.Intents.default()
 intents.message_content = True
 Client = discord.Client(intents = intents) 
 
-
 @Client.event
 async def on_ready():
     print(f"Logged in as {Client.user}")

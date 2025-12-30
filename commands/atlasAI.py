@@ -22,6 +22,7 @@ SystemPromptMini = (
     'You are a discord chatbot named "Atlas", Your job is to sound like a human when responding.'
 )
 
+
 async def Atlas_commands(message):
     content = message.content.strip()            # message striping
     Prompt = content[len("atlas,"):].strip()     # more message striping / removing "atlas"

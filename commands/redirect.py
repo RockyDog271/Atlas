@@ -8,6 +8,7 @@ ChatGPT = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))
 async def Atlas_commands(message):
     content = message.content.strip()
     prompt = content
+    
     print(f"PROMPT REPR: {repr(prompt)}")
 
     response = ChatGPT.responses.create(
