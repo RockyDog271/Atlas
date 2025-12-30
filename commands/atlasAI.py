@@ -24,15 +24,15 @@ SystemPromptMini = (
 
 async def Atlas_commands(message):
     content = message.content.strip()            # message striping
-    Prompt = content[len("atlas,"):].strip()     # more message striping / removing "atlas"
+    UserPrompt = content[len("atlas,"):].strip()     # more message striping / removing "atlas"
     if debug == 1:
-        print(f"Prompt REPR:   {repr(Prompt)}")
+        print(f"UserPrompt REPR:   {repr(UserPrompt)}")
     response = ChatGPT.responses.create(         # ChatGPT response creation
         model = "gpt-5-nano",
         #max_output_tokens = 350,
         input=[
         {"role": "system", "content": SystemPromptNano},
-        {"role": "user", "content": Prompt},
+        {"role": "user", "content": UserPrompt},
         ]
     )
     if ("upgrade-model" in response.output_text) or (response.output_text == ""): # Checks for model self-upgrade thingy
@@ -43,7 +43,7 @@ async def Atlas_commands(message):
             #max_output_tokens = 700,
             input=[
             {"role": "system", "content": SystemPromptMini},
-            {"role": "user", "content": Prompt},
+            {"role": "user", "content": UserPrompt},
             ]
         )
 
