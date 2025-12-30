@@ -14,7 +14,8 @@ AUTH_ID = int(os.getenv("AUTH_ID"))
 # Discord setup thingy
 intents = discord.Intents.default()
 intents.message_content = True
-Client = discord.Client(intents = intents)
+Client = discord.Client(intents = intents) 
+
 
 @Client.event
 async def on_ready():
