@@ -27,3 +27,4 @@ async def Atlas_commands(message):
     )
     response_text = f"Hello Rocky^^\n\n{response.output_text}"
     await message.channel.send(response_text)
+

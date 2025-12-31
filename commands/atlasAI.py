@@ -32,10 +32,10 @@ def Message_caching(message):
         CHANNEL_MESSAGE_HISTORY[ChannelID] = deque(maxlen = MAX_HISTORY)
     
     CHANNEL_MESSAGE_HISTORY[ChannelID].append({
-        "Author": message.author.id,
-        "AuthorName": message.author.name,
-        "Content": message.content,
-        "Timestamp": message.created_at,
+        "\nAuthor": message.author.id,
+        "\nAuthorName": message.author.name,
+        "\nContent": message.content,
+        "\nTimestamp": message.created_at,
     })
 
 # VAR = CHANNEL_MESSAGE_HISTORY.get(ChannelID, [])
