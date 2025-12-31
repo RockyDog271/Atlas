@@ -48,6 +48,8 @@ async def Atlas_commands(message):
     Message_caching(message)          # this calls the Message_caching function to cache the incoming message
     if message.author.bot:            # exits the loop and returns nothing if message is from a bot/app
         return                        # exits the loop and returns nothing
+    if message.content.strip() == "": # exits the loop and returns nothing if message is empty ie: ("")
+        return                        # exits the loop and returns nothing
 
     ChannelID = message.channel.id
     History = CHANNEL_MESSAGE_HISTORY.get(ChannelID, [])
@@ -66,6 +68,8 @@ async def Atlas_commands(message):
     response = ChatGPT.responses.create(
         model = "gpt-5-nano",
         max_output_tokens = 3000,
+        reasoning = {"effort": "low"},
+        # reasoning = 1000,
         input=[
         {"role": "system", "content": SystemPromptNano},
         {"role": "user", "content": Prompt},
