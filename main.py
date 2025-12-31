@@ -10,6 +10,7 @@ from commands.redirect import Atlas_commands as Redirect_commands
 load_dotenv()
 BOT_TOKEN = os.getenv("DISCORD_TOKEN")
 AUTH_ID = int(os.getenv("AUTH_ID"))
+BOT_ID = int(os.getenv("BOT_ID"))
 
 # Discord setup thingy
 intents = discord.Intents.default()
@@ -23,15 +24,15 @@ async def on_ready():
 @Client.event
 async def on_message(message):
     content = message.content.strip().lower().replace("'", "")
-
-    if message.author.bot:
-        return
-    
+ 
     if message.author.id == AUTH_ID:
         await Redirect_commands(message)
         return
 
-    if content.startswith("atlas,"):
+    if message.author.bot:
+        return
+
+    if content.startswith("atlas,") or message.author.id == BOT_ID:
         await Atlas_commands(message)
         return
     
