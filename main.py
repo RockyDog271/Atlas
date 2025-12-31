@@ -29,11 +29,11 @@ async def on_message(message):
         await Redirect_commands(message)
         return
 
-    if message.author.bot:
-        return
-
     if content.startswith("atlas,") or message.author.id == BOT_ID:
         await Atlas_commands(message)
         return
-    
+
+    if message.author.bot:
+        return    
+
 Client.run(BOT_TOKEN)
