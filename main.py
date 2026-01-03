@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 # FROM IMPORTS
 from commands.atlasAI import Atlas_commands
-from commands.redirect import Atlas_commands as Redirect_commands
+from redirect.atlasTesting import Atlas_commands as Redirect_commands
 
 # Environment variable loading
 load_dotenv()
@@ -34,6 +34,6 @@ async def on_message(message):
         return
 
     if message.author.bot:
-        return    
+        return
 
 Client.run(BOT_TOKEN)

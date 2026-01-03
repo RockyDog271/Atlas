@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 from collections import deque
+from datetime import timezone
 load_dotenv()
 
 # Modifiable variables are here \/
@@ -18,6 +19,8 @@ SystemPromptNano = (
     'Keep responses concise and to the point.'
     'If you cannot answer, respond exactly with: upgrade-model'
     'I repeat, if you cannot answer, respond exactly with: upgrade-model'
+    'Respond with 30 words or less in your response'
+    'If you feel that more than 30 words is needed to respond, output "upgrade-model"'
 )
 SystemPromptMini = (
     'You are a discord chatbot named "Atlas", Your job is to sound like a human when responding.'
@@ -30,26 +33,27 @@ def Message_caching(message):
     ChannelID = message.channel.id
     if ChannelID not in CHANNEL_MESSAGE_HISTORY:
         CHANNEL_MESSAGE_HISTORY[ChannelID] = deque(maxlen = MAX_HISTORY)
+        # Creating how I want the history inputs to be formatted
+    AuthorNameHistory = (f"{message.author.name}")
+    AuthorNameHistory = AuthorNameHistory.strip().replace("'", "")
+    ContentHistory = (f"{message.content}")
+    ContentHistory = ContentHistory.strip().replace("'", '"')
+    TimestampHistory = message.created_at.astimezone(timezone.utc).strftime("%m/%d/%y, %I:%M:%S%p")
+    HistoryInput = (
+    f"\n\nAuthorName: {AuthorNameHistory}     "
+    f"MessageTimestamp: {TimestampHistory}  "
+    f"\n{ContentHistory}"
+    )
     
-    CHANNEL_MESSAGE_HISTORY[ChannelID].append({
-        "\nAuthor": message.author.id,
-        "\nAuthorName": message.author.name,
-        "\nContent": message.content,
-        "\nTimestamp": message.created_at,
-    })
-
-# VAR = CHANNEL_MESSAGE_HISTORY.get(ChannelID, [])
-
-
-
-
+    #CHANNEL_MESSAGE_HISTORY[ChannelID].append({HistoryInput})
+    CHANNEL_MESSAGE_HISTORY[ChannelID].append(HistoryInput)
 
 async def Atlas_commands(message):
-    Message_caching(message)          # this calls the Message_caching function to cache the incoming message
-    if message.author.bot:            # exits the loop and returns nothing if message is from a bot/app
-        return                        # exits the loop and returns nothing
-    if message.content.strip() == "": # exits the loop and returns nothing if message is empty ie: ("")
-        return                        # exits the loop and returns nothing
+    Message_caching(message)            # this calls the Message_caching function to cache the incoming message
+    if message.author.bot:              # exits the loop and returns nothing if message is from a bot/app
+        return                          # exits the loop and returns nothing
+    if message.content.strip() == "":   # exits the loop and returns nothing if message is empty ie: ("")
+        return                          # exits the loop and returns nothing
 
     ChannelID = message.channel.id
     History = CHANNEL_MESSAGE_HISTORY.get(ChannelID, [])
@@ -57,17 +61,18 @@ async def Atlas_commands(message):
     UserPrompt = content[len("atlas,"):].strip()
     Prompt = (
         "Previous conversation context:\n"
-        f"{History}\n\n"
-        "Current user message (UserPrompt):\n"
+        f"{''.join(History)}"
+        "\n\nCurrent user message (UserPrompt):\n"
         f"{UserPrompt}"
     )
+
 
     if DEBUG == 1:
         print(f"UserPrompt REPR:   {repr(UserPrompt)}")
         print(f"Prompt REPR:       {repr(Prompt)}")
     response = ChatGPT.responses.create(
         model = "gpt-5-nano",
-        max_output_tokens = 3000,
+        max_output_tokens = 1500,
         reasoning = {"effort": "low"},
         # reasoning = 1000,
         input=[
@@ -78,8 +83,7 @@ async def Atlas_commands(message):
 
 
     if ("upgrade-model" in response.output_text) or (response.output_text == ""): # Checks for model self-upgrade thingy
-        if DEBUG == 1:
-            print(f"INFO: model changed: GPT-5-NANO -> GPT-5-MINI")
+        print(f"INFO: model changed: GPT-5-NANO -> GPT-5-MINI")
         response = ChatGPT.responses.create(     # ChatGPT response creation
             model = "gpt-5-mini",
             #max_output_tokens = 700,
