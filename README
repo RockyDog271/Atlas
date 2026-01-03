@@ -9,3 +9,8 @@ Variables (any)
 
 Functions and definitions
     This_looks_like_this
+
+INFO:        # INFO    //obv
+DEBUG        # DEBUG   //obv
+ERROR:       # ERROR   //obv
+WARNING:     # WARNING //obv

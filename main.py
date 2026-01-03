@@ -2,9 +2,17 @@ import os
 import discord
 from dotenv import load_dotenv
 
-# FROM IMPORTS
-from commands.atlasAI import Atlas_commands
-from redirect.atlasTesting import Atlas_commands as Redirect_commands
+# Importing all of the sub-folders in order to call functions
+from redirect.atlasTesting import Redirect_commands
+from commands.atlasAI import Atlas_AIcommands
+from commands.core import Atlas_commands
+
+# Modifiable variables are here \/
+MAX_MSG_LEN = 1000  # determines max message length to process responses
+DEBUG = 0           # 0 for OFF, 1 for ON
+
+# Modifiable variables are here \/
+ErrorMessageToLong = "Message send is too long to process\nPlease shorten message or send '!override' to retry"
 
 # Environment variable loading
 load_dotenv()
@@ -15,22 +23,38 @@ BOT_ID = int(os.getenv("BOT_ID"))
 # Discord setup thingy
 intents = discord.Intents.default()
 intents.message_content = True
+intents.guild_messages = True
+intents.members = True
+intents.guilds = True
+
+# This connects to the Discord API and is REQUIRED
 Client = discord.Client(intents = intents) 
 
+# I honestly don't know what this does but it's important
 @Client.event
 async def on_ready():
-    print(f"Logged in as {Client.user}")
+    print(f"INFO: Logged in as: {Client.user}")
 
+#This is the main loop, // the part you edit
 @Client.event
 async def on_message(message):
-    content = message.content.strip().lower().replace("'", "")
- 
+    ContentCheck = message.content.strip().lower().replace("'", "")   # Used for all checks in this loop
+    if len(message.content) <= MAX_MSG_LEN:
+        if not (message.author.id == AUTH_ID or ContentCheck.endswith("!override")):
+            print(f"ERROR: ErrorMessageToLong: Message exceeded {MAX_MSG_LEN} chars")
+            await message.channel.send(ErrorMessageToLong)
+            return
+    Message = message.content.strip("'")
+    
     if message.author.id == AUTH_ID:
-        await Redirect_commands(message)
+        await Redirect_commands(Message, message)
         return
+    
+    if ContentCheck.startswith(">>"):
+        await Atlas_commands(Message, message)
 
-    if content.startswith("atlas,") or message.author.id == BOT_ID:
-        await Atlas_commands(message)
+    if ContentCheck.startswith("atlas,") or message.author.id == BOT_ID:
+        await Atlas_AIcommands(Message, message)
         return
 
     if message.author.bot:

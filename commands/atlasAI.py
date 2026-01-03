@@ -29,7 +29,7 @@ SystemPromptMini = (
 
 CHANNEL_MESSAGE_HISTORY = {}
 
-def Message_caching(message):
+def Message_caching(Message, message):
     ChannelID = message.channel.id
     if ChannelID not in CHANNEL_MESSAGE_HISTORY:
         CHANNEL_MESSAGE_HISTORY[ChannelID] = deque(maxlen = MAX_HISTORY)
@@ -48,7 +48,7 @@ def Message_caching(message):
     #CHANNEL_MESSAGE_HISTORY[ChannelID].append({HistoryInput})
     CHANNEL_MESSAGE_HISTORY[ChannelID].append(HistoryInput)
 
-async def Atlas_commands(message):
+async def Atlas_AIcommands(Message, message):
     Message_caching(message)            # this calls the Message_caching function to cache the incoming message
     if message.author.bot:              # exits the loop and returns nothing if message is from a bot/app
         return                          # exits the loop and returns nothing
