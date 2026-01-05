@@ -9,13 +9,14 @@ DEBUG = 0           # 0 for OFF, 1 for ON
 MAX_HISTORY = 10    # The max history that can be stored (default is 10)
 
 # Grabbing the API key for ChatGPT from the environment
-ChatGPT = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))
+ChatGPT = OpenAI(api_key = os.getenv("ATLAS_REDIRECT_API_KEY"))
 
 
 
 
 
-async def Redirect_commands(message):
+async def Redirect_commands(Message, message):
+    Message = Message
     content = message.content.strip()
     prompt = content
 
