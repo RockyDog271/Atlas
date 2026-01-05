@@ -1,21 +1,22 @@
-API keys and SYS variables:
-    THIS_LOOKS_LIKE_THIS
+Atlas, the helpful discord bot created by RockyDog271 and tested by my friends
+it has functions such as:
+<pleceholder>
+<placeholder>
+<placeholder>
 
-Constants:
-    THIS_LOOKS_LIKE_THIS
+and some more advanced ones like:
+<placeholder>!
+<placeholder>!
+<placeholder>!
+<placeholder>!
 
-Variables (any)
-    ThisLooksLikeThis
+And a redirect function that
+<placeholder> :3
+<placeholder> :3
+<placeholder> :3
 
-Functions and definitions
-    This_looks_like_this
-
-INFO:        # INFO    //obv
-DEBUG        # DEBUG   //obv
-ERROR:       # ERROR   //obv
-WARNING:     # WARNING //obv
-
-\033[34mINFO\033[0m
-\033[35mDEBUG\033[0m
-\033[31mERROR\033[0m
-\033[33mWARNING\033[0m
+CMD colors and info:
+\033[34mINFO\033[0m     # INFO
+\033[35mDEBUG\033[0m    # DEBUG
+\033[31mERROR\033[0m    # ERROR
+\033[33mWARNING\033[0m  # WARNING
