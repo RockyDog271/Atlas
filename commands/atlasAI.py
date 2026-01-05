@@ -11,7 +11,7 @@ DEBUG = 0           # 0 for OFF, 1 for ON
 MAX_HISTORY = 10    # The max history that can be stored (default is 10)
 
 # Grabbing the API key for ChatGPT from the environment
-ChatGPT = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))
+ChatGPT = OpenAI(api_key = os.getenv("ATLAS_API_KEY"))
 
 SystemPromptNano = (
     'You are a discord chatbot named "Atlas", Your job is to sound like a human when responding.'
@@ -29,7 +29,7 @@ SystemPromptMini = (
 
 CHANNEL_MESSAGE_HISTORY = {}
 
-def Message_caching(Message, message):
+def Message_caching(message):
     ChannelID = message.channel.id
     if ChannelID not in CHANNEL_MESSAGE_HISTORY:
         CHANNEL_MESSAGE_HISTORY[ChannelID] = deque(maxlen = MAX_HISTORY)
@@ -49,6 +49,7 @@ def Message_caching(Message, message):
     CHANNEL_MESSAGE_HISTORY[ChannelID].append(HistoryInput)
 
 async def Atlas_AIcommands(Message, message):
+    Message = Message
     Message_caching(message)            # this calls the Message_caching function to cache the incoming message
     if message.author.bot:              # exits the loop and returns nothing if message is from a bot/app
         return                          # exits the loop and returns nothing

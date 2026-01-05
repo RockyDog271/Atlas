@@ -3,16 +3,18 @@ import discord
 from dotenv import load_dotenv
 
 # Importing all of the sub-folders in order to call functions
-from redirect.atlasTesting import Redirect_commands
 from commands.atlasAI import Atlas_AIcommands
+from Atlas.redirect.handler import Redirect_commands
 from commands.core import Atlas_commands
 
 # Modifiable variables are here \/
-MAX_MSG_LEN = 1000  # determines max message length to process responses
+MAX_MSG_LEN = 1000  # Determines max message length to process responses
+CMD_PREFIX = ">> "  # This is the command prefix for 
 DEBUG = 0           # 0 for OFF, 1 for ON
 
 # Modifiable variables are here \/
-ErrorMessageToLong = "Message send is too long to process\nPlease shorten message or send '!override' to retry"
+ErrorSomethingWentWrong = "No idea what went from with this one, 403/500 ERROR "
+ErrorMessageToLong = "Message send is too long to process\nPlease shorten message message and retry :3"
 
 # Environment variable loading
 load_dotenv()
@@ -39,25 +41,34 @@ async def on_ready():
 @Client.event
 async def on_message(message):
     ContentCheck = message.content.strip().lower().replace("'", "")   # Used for all checks in this loop
-    if len(message.content) <= MAX_MSG_LEN:
+    if len(message.content) >= MAX_MSG_LEN:
         if not (message.author.id == AUTH_ID or ContentCheck.endswith("!override")):
             print(f"ERROR: ErrorMessageToLong: Message exceeded {MAX_MSG_LEN} chars")
+            if message.author.id == BOT_ID:
+                return
             await message.channel.send(ErrorMessageToLong)
             return
     Message = message.content.strip("'")
-    
+
+    # If message is the AUTH_ID it sends the content to Redirect_commands
     if message.author.id == AUTH_ID:
         await Redirect_commands(Message, message)
         return
-    
-    if ContentCheck.startswith(">>"):
-        await Atlas_commands(Message, message)
 
-    if ContentCheck.startswith("atlas,") or message.author.id == BOT_ID:
+    # If command starts with {STR} prefix, sends to Atlas_commands (in core.py)
+    elif ContentCheck.startswith(CMD_PREFIX):
+        await Atlas_commands(Message, message, CMD_PREFIX)
+
+    # Checks for either the AI command "Atlas" or for the Atlas discord bot ID
+    elif ContentCheck.startswith("atlas,") or message.author.id == BOT_ID:
         await Atlas_AIcommands(Message, message)
         return
 
-    if message.author.bot:
+    # If the message is coming from a bot it simply returns :3
+    elif message.author.bot:
+        return
+
+    else:
         return
 
 Client.run(BOT_TOKEN)
