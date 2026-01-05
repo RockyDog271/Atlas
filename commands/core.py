@@ -1,10 +1,10 @@
-
+from .. import components
 
 async def Atlas_commands(Message, message, CMD_PREFIX):
     Message = Message.lower().replace(CMD_PREFIX, "")
     
     if Message == ("commands"):
-        await message.channel.send()
+        await components.commands(message)
         return
 
     elif Message == (""):

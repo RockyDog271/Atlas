@@ -3,9 +3,9 @@ import discord
 from dotenv import load_dotenv
 
 # Importing all of the sub-folders in order to call functions
-from commands.atlasAI import Atlas_AIcommands
-from Atlas.redirect.handler import Redirect_commands
-from commands.core import Atlas_commands
+from .commands.atlasAI import Atlas_AIcommands
+from .redirect.handler import Redirect_commands
+from .commands.core import Atlas_commands
 
 # Modifiable variables are here \/
 MAX_MSG_LEN = 1000  # Determines max message length to process responses
