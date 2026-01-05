@@ -35,7 +35,7 @@ Client = discord.Client(intents = intents)
 # I honestly don't know what this does but it's important
 @Client.event
 async def on_ready():
-    print(f"INFO: Logged in as: {Client.user}")
+    print(f"\033[34mINFO:\033[0m Logged in as: {Client.user}")
 
 #This is the main loop, // the part you edit
 @Client.event
@@ -43,7 +43,7 @@ async def on_message(message):
     ContentCheck = message.content.strip().lower().replace("'", "")   # Used for all checks in this loop
     if len(message.content) >= MAX_MSG_LEN:
         if not (message.author.id == AUTH_ID or ContentCheck.endswith("!override")):
-            print(f"ERROR: ErrorMessageToLong: Message exceeded {MAX_MSG_LEN} chars")
+            print(f"\033[31mERROR:\033[0m ErrorMessageToLong: Message exceeded {MAX_MSG_LEN} chars")
             if message.author.id == BOT_ID:
                 return
             await message.channel.send(ErrorMessageToLong)

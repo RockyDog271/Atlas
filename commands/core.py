@@ -1,4 +1,4 @@
-from .. import components
+from . import components
 
 async def Atlas_commands(Message, message, CMD_PREFIX):
     Message = Message.lower().replace(CMD_PREFIX, "")
