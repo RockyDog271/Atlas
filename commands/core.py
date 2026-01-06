@@ -17,7 +17,9 @@ import os
 AUTH_ID = int(os.getenv("AUTH_ID"))
 
 ErrorNoCommandFound = "ErrorNoCommandFound"
-DEBUG = 0 # 1 for on, 0 for off
+DEBUG = 1 # 1 for on, 0 for off
+
+
 
 async def Atlas_commands(Message, message, CMD_PREFIX):
     if DEBUG == 1:

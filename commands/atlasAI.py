@@ -29,7 +29,7 @@ SystemPromptMini = (
 CHANNEL_MESSAGE_HISTORY = {}
 
 def Message_caching(message, CMD_PREFIX):
-    if message.strip.startswith(CMD_PREFIX):
+    if message.strip().startswith(CMD_PREFIX):
         return
     ChannelID = message.channel.id
     if ChannelID not in CHANNEL_MESSAGE_HISTORY:
