@@ -61,7 +61,7 @@ async def on_message(message):
 
     # Checks for either the AI command "Atlas" or for the Atlas discord bot ID
     elif ContentCheck.startswith("atlas,") or message.author.id == BOT_ID:
-        await Atlas_AIcommands(Message, message)
+        await Atlas_AIcommands(Message, message, CMD_PREFIX)
         return
 
     # If the message is coming from a bot it simply returns :3

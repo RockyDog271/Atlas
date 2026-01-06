@@ -1,5 +1,4 @@
 import os
-#from urllib import response
 from dotenv import load_dotenv
 from openai import OpenAI
 from collections import deque
@@ -29,7 +28,9 @@ SystemPromptMini = (
 
 CHANNEL_MESSAGE_HISTORY = {}
 
-def Message_caching(message):
+def Message_caching(message, CMD_PREFIX):
+    if message.strip.startswith(CMD_PREFIX):
+        return
     ChannelID = message.channel.id
     if ChannelID not in CHANNEL_MESSAGE_HISTORY:
         CHANNEL_MESSAGE_HISTORY[ChannelID] = deque(maxlen = MAX_HISTORY)
@@ -48,9 +49,9 @@ def Message_caching(message):
     #CHANNEL_MESSAGE_HISTORY[ChannelID].append({HistoryInput})
     CHANNEL_MESSAGE_HISTORY[ChannelID].append(HistoryInput)
 
-async def Atlas_AIcommands(Message, message):
+async def Atlas_AIcommands(Message, message, CMD_PREFIX):
     Message = Message
-    Message_caching(message)            # this calls the Message_caching function to cache the incoming message
+    Message_caching(message, CMD_PREFIX)            # this calls the Message_caching function to cache the incoming message
     if message.author.bot:              # exits the loop and returns nothing if message is from a bot/app
         return                          # exits the loop and returns nothing
     if message.content.strip() == "":   # exits the loop and returns nothing if message is empty ie: ("")

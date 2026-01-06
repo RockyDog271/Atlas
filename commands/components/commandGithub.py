@@ -1,11 +1,7 @@
+GithubLink = "https://github.com/RockyDog271/Atlas"
+
 async def commandGithub(message):
     await message.channel.send(
-        "Here are the available commands"
-        "\n>> Help"
-        "\n>> Commands"
-        "\n>> Echo"
-        "\n>> Ping"
-        "\n>> Flags"
-        "\n>> Cookies"
+        f"Here is the GitHub link:"
+        f"{GithubLink}"
     )
-

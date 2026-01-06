@@ -28,7 +28,7 @@ async def commandHelp(CMD_PREFIX, MessageList, Message, message):
             f"\n`{CMD_PREFIX}help !help`"
         )
     else:
-        if len(MessageList) >= 2 and MessageList[1] == "!help":
+        if len(MessageList) >= 2 and MessageList[1] == ("!help" or "!?"):
             await message.channel.send(
                 f"I just feel..."
                 f"\nI feel like you should know this one?"
@@ -56,7 +56,7 @@ async def commandHelp(CMD_PREFIX, MessageList, Message, message):
                 f"\n EXAMPLE:"
                 f"\n`{CMD_PREFIX}echo !help`"
             )
-        elif len(MessageList) >= 2 and MessageList[1] == "!info":
+        elif len(MessageList) >= 2 and MessageList[1] == "!rand":
             await message.channel.send(
                 f"Here is a list of all available commands:"
                 f"\n{CMD_PREFIX}rand"
