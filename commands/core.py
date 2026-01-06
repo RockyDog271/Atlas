@@ -17,7 +17,7 @@ import os
 AUTH_ID = int(os.getenv("AUTH_ID"))
 
 ErrorNoCommandFound = "ErrorNoCommandFound"
-DEBUG = 1 # 1 for on, 0 for off
+DEBUG = 0 # 1 for on, 0 for off
 
 
 
@@ -30,57 +30,59 @@ async def Atlas_commands(Message, message, CMD_PREFIX):
         print(f"\033[35mDEBUG\033[0m: message REPR == {repr(Message)}")
 
     if len(MessageList) >= 1 and MessageList[0] == ("help"):
+        Message == Message.strip("help")
         await commandHelp(CMD_PREFIX, MessageList, Message, message)
         return
 
-    elif len(MessageList) >= 1 and MessageList[0] == ("info"):        
+    elif len(MessageList) >= 1 and MessageList[0] == ("info"): 
+        Message == Message.strip("info")       
         await commandInfo(MessageList, Message, message)
         return
 
     elif len(MessageList) >= 1 and MessageList[0] == ("echo"): 
-        Message == Message.strip("echo", "")
+        Message == Message.strip("echo")
         await commandEcho(MessageList, Message, message)
         return
     
     elif len(MessageList) >= 1 and MessageList[0] == ("rand"): 
-        Message == Message.strip("rand", "")
+        Message == Message.strip("rand")
         await commandRand(MessageList, Message, message)
         return
     
     elif len(MessageList) >= 1 and MessageList[0] == ("avatar"): 
-        Message == Message.strip("avatar", "")
+        Message == Message.strip("avatar")
         await commandAvatar(MessageList, Message, message)
         return
     
     elif len(MessageList) >= 1 and MessageList[0] == ("roast"): 
-        Message == Message.strip("roast", "")
+        Message == Message.strip("roast")
         await commandRoast(MessageList, Message, message)
         return
 
     elif len(MessageList) >= 1 and MessageList[0] == ("joke"): 
-        Message == Message.strip("joke", "")
+        Message == Message.strip("joke")
         await commandJoke(MessageList, Message, message)
         return
     
     elif len(MessageList) >= 1 and MessageList[0] == ("wants"): 
-        Message == Message.strip("wants", "")
+        Message == Message.strip("wants")
         await commandWants(MessageList, Message, message)
         return
 
     elif len(MessageList) >= 1 and MessageList[0] == ("tools"): 
-        Message == Message.strip("tools", "")
+        Message == Message.strip("tools")
         await commandTools(MessageList, Message, message)
         return
     
     elif len(MessageList) >= 1 and MessageList[0] == ("github"): 
-        Message == Message.strip("github", "")
+        Message == Message.strip("github")
         await commandGithub(MessageList, Message, message)
         return
 
     elif len(MessageList) >= 1 and MessageList[0] == ("admin"): 
         if message.author.id != AUTH_ID:
             return
-        Message == Message.strip("admin", "")
+        Message == Message.strip("admin")
         await commandAdmin(MessageList, Message, message)
         return
     else:

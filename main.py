@@ -51,7 +51,7 @@ async def on_message(message):
     Message = message.content.strip("'")
 
     # If message is the AUTH_ID it sends the content to Redirect_commands
-    if message.author.id == AUTH_ID:
+    if message.author.id == 1:#AUTH_ID:
         await Redirect_commands(Message, message)
         return
 

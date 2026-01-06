@@ -1,3 +1,4 @@
+from datetime import timedelta
 import discord
 import os
 
@@ -15,7 +16,9 @@ ErrorDiscordForbidden = "ErrorDiscordForbidden: Permission Denied\nDoes BOT/APP 
 # Separate from the rest because it has a lot of text and is generally annoying
 async def adminHelpFunctions(MessageList, message):
     return
+# -----------------------------------------------------------------------------
 
+# adminTimeoutUser is kind of a mess, it is best that we just leave this one alone...
 async def adminTimeoutUser(MessageList, message):
     if len(MessageList) >= 3 and MessageList[2] in ("!help", "!?"):
         await adminHelpFunctions(MessageList, message)
@@ -29,10 +32,12 @@ async def adminTimeoutUser(MessageList, message):
                 if len(MessageList) >= 4 and "!" in MessageList[3]:
                     TimeoutLength = MessageList[3]
                     TimeoutLength = TimeoutLength.replace("!", "")
-                    await member.timeout(TimeoutLength, reason=(f"Timeout by {message.author}"))
+                    TimeoutLength = int(TimeoutLength)
+                    await member.timeout(timedelta(minutes=TimeoutLength), reason=(f"Timeout by {message.author}"))
                     await message.channel.send(f"User {member} Kicked for {TimeoutLength}minutes :3")
                 else:
-                    await member.timeout(15, reason=(f"Timeout by {message.author}"))
+                    TimeoutLength = int(15)
+                    await member.timeout(timedelta(minutes=TimeoutLength), reason=(f"Timeout by {message.author}"))
             except discord.HTTPException:
                 await message.channel.send(ErrorDiscordException)
             except discord.Forbidden:
@@ -40,16 +45,45 @@ async def adminTimeoutUser(MessageList, message):
             except:
                 await message.channel.send(ErrorUnknown)
     return
+
+# notes
 async def adminKickUser(MessageList, message):
     return
+
+# notes
 async def adminBanUser(MessageList, message):
     return
+
+# notes
 async def adminPurgeFunction(MessageList, message):
-    return
+    if len(MessageList) >= 3 and MessageList[2] in ("!help", "!?"):
+        await adminHelpFunctions(MessageList, message)
+        return
+    elif len(MessageList) >= 3 and "!" not in MessageList[2]:
+        await message.channel.send("Purge message amount integer required")
+        return
+    elif len(MessageList) >= 3 and "!" in MessageList[2]:
+        PurgeAMT = MessageList[2]
+        PurgeAMT = int(PurgeAMT.strip().replace("!", ""))
+        if PurgeAMT <= 0:
+            await message.channel.send("Purge integer must be greater than 0!")
+            return
+        await message.channel.purge(limit=PurgeAMT)
+        return
+    else:
+        await message.channel.send(ErrorUnknown)
+
+# adminModLog will be in the future, I need to better understand .txt and .json handling first
 async def adminModlog(MessageList, message):
+    await message.channel.send("I am stupid and depressed, I will implement this function later")
     return
+
+# adminModLog will be in the future, I need to better understand .txt and .json handling first
 async def adminUserlog(MessageList, message):
+    await message.channel.send("I am stupid and depressed, I will implement this function later")
     return
+
+# notes
 async def adminUserjoin(MessageList, message):
     return
 
@@ -72,22 +106,22 @@ async def commandAdmin(MessageList, Message, message):
             await adminTimeoutUser(MessageList, message)
             return
         if len(MessageList) >= 2 and MessageList[1] == ("!kick"):
-            await adminTimeoutUser(MessageList, message)
+            await adminKickUser(MessageList, message)
             return
         if len(MessageList) >= 2 and MessageList[1] == ("!ban"):
-            await adminTimeoutUser(MessageList, message)
+            await adminBanUser(MessageList, message)
             return
         if len(MessageList) >= 2 and MessageList[1] == ("!purge"):
-            await adminTimeoutUser(MessageList, message)
+            await adminPurgeFunction(MessageList, message)
             return
         if len(MessageList) >= 2 and MessageList[1] == ("!modlog"):
-            await adminTimeoutUser(MessageList, message)
+            await adminModlog(MessageList, message)
             return
         if len(MessageList) >= 2 and MessageList[1] == ("!userlog"):
-            await adminTimeoutUser(MessageList, message)
+            await adminUserlog(MessageList, message)
             return
         if len(MessageList) >= 2 and MessageList[1] == ("!userjoin"):
-            await adminTimeoutUser(MessageList, message)
+            await adminUserjoin(MessageList, message)
             return
     else:
         await message.channel.send(f"{ErrorUnknown}\n\nERROR-503")
