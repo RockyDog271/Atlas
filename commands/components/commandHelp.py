@@ -28,7 +28,7 @@ async def commandHelp(CMD_PREFIX, MessageList, Message, message):
             f"\n`{CMD_PREFIX}help !help`"
         )
     else:
-        if len(MessageList) >= 2 and MessageList[1] == ("!help" or "!?"):
+        if len(MessageList) >= 2 and MessageList[1] in ("!help", "!?"):
             await message.channel.send(
                 f"I just feel..."
                 f"\nI feel like you should know this one?"

@@ -29,7 +29,7 @@ SystemPromptMini = (
 CHANNEL_MESSAGE_HISTORY = {}
 
 def Message_caching(message, CMD_PREFIX):
-    if message.strip().startswith(CMD_PREFIX):
+    if message.content.strip().startswith(CMD_PREFIX):
         return
     ChannelID = message.channel.id
     if ChannelID not in CHANNEL_MESSAGE_HISTORY:
@@ -50,7 +50,6 @@ def Message_caching(message, CMD_PREFIX):
     CHANNEL_MESSAGE_HISTORY[ChannelID].append(HistoryInput)
 
 async def Atlas_AIcommands(Message, message, CMD_PREFIX):
-    Message = Message
     Message_caching(message, CMD_PREFIX)            # this calls the Message_caching function to cache the incoming message
     if message.author.bot:              # exits the loop and returns nothing if message is from a bot/app
         return                          # exits the loop and returns nothing
