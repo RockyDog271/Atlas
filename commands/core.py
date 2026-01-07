@@ -76,7 +76,7 @@ async def Atlas_commands(Message, message, CMD_PREFIX):
     
     elif len(MessageList) >= 1 and MessageList[0] == ("github"): 
         Message == Message.strip("github")
-        await commandGithub(MessageList, Message, message)
+        await commandGithub(MessageList, message)
         return
 
     elif len(MessageList) >= 1 and MessageList[0] == ("admin"): 
