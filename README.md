@@ -15,10 +15,10 @@ And some future plans too!
 - Counting Channel
 
 CMD colors and info: (This is mostly for self-reference)
--     \033[34mINFO\033[0m     # INFO
--     \033[35mDEBUG\033[0m    # DEBUG
--     \033[31mERROR\033[0m    # ERROR
--     \033[33mWARNING\033[0m  # WARNING
+     "\033[34mINFO\033[0m"     # INFO
+     "\033[35mDEBUG\033[0m"    # DEBUG
+     "\033[31mERROR\033[0m"    # ERROR
+     "\033[33mWARNING\033[0m"  # WARNING
 
 THE ATLAS PROJECT INFO
 
