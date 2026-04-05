@@ -75,12 +75,12 @@ async def adminPurgeFunction(MessageList, message):
 
 # adminModLog will be in the future, I need to better understand .txt and .json handling first
 async def adminModlog(MessageList, message):
-    await message.channel.send("I am stupid and depressed, I will implement this function later")
+    await message.channel.send("I will implement this function later")
     return
 
 # adminModLog will be in the future, I need to better understand .txt and .json handling first
 async def adminUserlog(MessageList, message):
-    await message.channel.send("I am stupid and depressed, I will implement this function later")
+    await message.channel.send("I will implement this function later")
     return
 
 # notes
